@@ -75,6 +75,10 @@ while [ 1 -eq 1 ]; do
 			index=$((index+1))
 		done
 		read -r -p "SELECT FILE: " selection
+		if [[ ! $selection =~ [0-9] ]] then
+		       echo WRONG INPUT
+		       continue 
+	       	fi	       
 		echo
 		echo
 		echo

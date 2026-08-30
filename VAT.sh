@@ -30,6 +30,10 @@ Read(){
 	while read -r line; do
 		echo $line
 	done < $filepath
+	echo
+	echo
+	echo
+	echo
 }
 
 # MAIN FUNC
@@ -58,13 +62,24 @@ while [ 1 -eq 1 ]; do
 		vatDecimal=$(echo "scale=2; $vatPercent / 100"|bc)
 		calculateNet $total $vatDecimal
 	elif [ $choice -eq 3 ]; then
+		echo
+		echo
+		echo
 		searchDir=./invoices
+		declare -a invoices
+		index=0
 		for entry in "$searchDir"/*;
-	       	do
-			echo "$entry"
+	       	do	
+			invoices[ $index ]=$entry
+			echo $index - $entry
+			index=$((index+1))
 		done
-		read -r -p "ENTER FILE PATH: " filepath 
-		Read $filepath
+		read -r -p "SELECT FILE: " selection
+		echo
+		echo
+		echo
+		echo
+		Read ${invoices[ $selection ]}
 
 
 	elif [ $choice -eq 4 ]; then

@@ -36,12 +36,21 @@ Read(){
 	echo
 }
 
+Write(){
+	local log_file=$1
+	local timestamp=$(date +%s)
+	echo "NOTE FROM " $timestamp > "$log_file"
+	read -d '@' -p "START WRITING... (Stop with @): " user_input
+	echo "$user_input" >> "$log_file"
+}
+
 # MAIN FUNC
 while [ 1 -eq 1 ]; do
 	echo 1 - CHECK VALUE WITH VAT
 	echo 2 - CHECK VALUE WITHOUT VAT
 	echo 3 - OPEN INVOICE
-	echo 4 - EXIT
+	echo 4 - "WRITE (NOTES, CALCULATION, ETC.)"
+	echo 5 - EXIT
 	read -p "ENTER YOUR CHOICE: " choice
 	if [ $choice -eq 1 ]; then
 		read -p "ENTER VALUE WITHOUT VAT: " base
@@ -75,7 +84,7 @@ while [ 1 -eq 1 ]; do
 			index=$((index+1))
 		done
 		read -r -p "SELECT FILE: " selection
-		if [[ ! $selection =~ [0-9] ]] then
+		if [[ ! $selection =~ [0-9]+ ]] then
 		       echo WRONG INPUT
 		       continue 
 	       	fi	       
@@ -84,9 +93,28 @@ while [ 1 -eq 1 ]; do
 		echo
 		echo
 		Read ${invoices[ $selection ]}
-
-
 	elif [ $choice -eq 4 ]; then
+		echo CREATE A TXT OR OVERWRITE
+		searchDir=./notes
+		declare -a notes
+		index=0
+		for entry in "$searchDir"/*;
+		do
+			notes[ $index ]=$entry
+			echo $index - $entry
+			index=$((index+1))
+		done
+		echo $((index+1)) WRITE NEW
+		read -r -p "SELECT OPTION: " selection
+		if [[ ! $selection =~ [0-9]+ ]]; then
+		       echo WRONG INPUT
+	       	       continue	 
+		fi      
+		if [ $selection -eq $((index+1)) ]; then
+			read -r -p "WRITE NEW FILE NAME: " filename
+			Write "./notes/"$filename".txt"
+		fi
+	elif [ $choice -eq 5 ]; then
 		echo GOODBYE
 		echo
 		echo

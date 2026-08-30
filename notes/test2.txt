@@ -1,0 +1,8 @@
+So time to check if Timestamp works, also I noticed a bug with selecting file. It goes:
+
+0 - file1
+1 - file2
+2 - file3
+4 - create new
+
+So will fix it to start from 1 and the create new to be index + 1

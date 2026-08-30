@@ -1,0 +1,5 @@
+NOTE FROM: 2026-08-30 21:28:06
+I am currently reworking, rewriting finally.txt  
+SO I BELIEVE EVERYTHING WORKS FINE
+
+COMMIT INCOMING :)

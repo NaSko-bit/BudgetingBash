@@ -38,9 +38,10 @@ Read(){
 
 Write(){
 	local log_file=$1
-	local timestamp=$(date +%s)
-	echo "NOTE FROM " $timestamp > "$log_file"
-	read -d '@' -p "START WRITING... (Stop with @): " user_input
+	local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+	echo "NOTE FROM: $timestamp" > "$log_file"
+	echo "START WRITING... (Натиснете Ctrl+D на нов ред, за да запишете)"
+	user_input=$(cat)
 	echo "$user_input" >> "$log_file"
 }
 
@@ -101,7 +102,7 @@ while [ 1 -eq 1 ]; do
 		for entry in "$searchDir"/*;
 		do
 			notes[ $index ]=$entry
-			echo $index - $entry
+			echo $((index+1)) - $entry
 			index=$((index+1))
 		done
 		echo $((index+1)) WRITE NEW
@@ -113,6 +114,8 @@ while [ 1 -eq 1 ]; do
 		if [ $selection -eq $((index+1)) ]; then
 			read -r -p "WRITE NEW FILE NAME: " filename
 			Write "./notes/"$filename".txt"
+		else
+			Write ${notes[ $((selection-1)) ]}
 		fi
 	elif [ $choice -eq 5 ]; then
 		echo GOODBYE

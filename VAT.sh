@@ -24,11 +24,20 @@ calculateNet(){
 	echo
 }
 
+# Reading files (invoices)
+Read(){
+	local filepath=$1
+	while read -r line; do
+		echo $line
+	done < $filepath
+}
+
 # MAIN FUNC
 while [ 1 -eq 1 ]; do
 	echo 1 - CHECK VALUE WITH VAT
 	echo 2 - CHECK VALUE WITHOUT VAT
-	echo 3 - EXIT
+	echo 3 - OPEN INVOICE
+	echo 4 - EXIT
 	read -p "ENTER YOUR CHOICE: " choice
 	if [ $choice -eq 1 ]; then
 		read -p "ENTER VALUE WITHOUT VAT: " base
@@ -49,7 +58,17 @@ while [ 1 -eq 1 ]; do
 		vatDecimal=$(echo "scale=2; $vatPercent / 100"|bc)
 		calculateNet $total $vatDecimal
 	elif [ $choice -eq 3 ]; then
-		echo GOODBYE!
+		searchDir=./invoices
+		for entry in "$searchDir"/*;
+	       	do
+			echo "$entry"
+		done
+		read -r -p "ENTER FILE PATH: " filepath 
+		Read $filepath
+
+
+	elif [ $choice -eq 4 ]; then
+		echo GOODBYE
 		echo
 		echo
 		echo

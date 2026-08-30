@@ -33,11 +33,19 @@ while [ 1 -eq 1 ]; do
 	if [ $choice -eq 1 ]; then
 		read -p "ENTER VALUE WITHOUT VAT: " base
 		read -p "ENTER VAT %: " vatPercent
+		if [[ ! $base =~ ^[0-9]+(\.[0-9]+)?$ || ! $vatPercent =~ ^[0-9]+(\.[0-9]+)?$ ]] then
+			echo WRONG INPUT
+			continue
+		fi
 		vatDecimal=$(echo "scale=2; $vatPercent / 100"|bc)
 		calculateVAT $base $vatDecimal
 	elif [ $choice -eq 2 ]; then
 		read -p "ENTER TOTAL VALUE WITH VAT: " total
 		read -p "ENTER VAT %: " vatPercent
+		if [[ ! $total =~ ^[0-9]+(\.[0-9]+)?$ || !  $vatPercent =~ ^[0-9]+(\.[0-9]+)?$ ]] then
+			echo WRONG INPUT
+			continue
+		fi
 		vatDecimal=$(echo "scale=2; $vatPercent / 100"|bc)
 		calculateNet $total $vatDecimal
 	elif [ $choice -eq 3 ]; then

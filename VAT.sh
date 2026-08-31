@@ -95,27 +95,44 @@ while [ 1 -eq 1 ]; do
 		echo
 		Read ${invoices[ $selection ]}
 	elif [ $choice -eq 4 ]; then
-		echo CREATE A TXT OR OVERWRITE
+		echo 1 - READ
+		echo 2 - WRITE
+		read -p "SELECT OPTION: " select
 		searchDir=./notes
 		declare -a notes
 		index=0
-		for entry in "$searchDir"/*;
-		do
-			notes[ $index ]=$entry
-			echo $((index+1)) - $entry
-			index=$((index+1))
-		done
-		echo $((index+1)) WRITE NEW
-		read -r -p "SELECT OPTION: " selection
-		if [[ ! $selection =~ [0-9]+ ]]; then
-		       echo WRONG INPUT
-	       	       continue	 
-		fi      
-		if [ $selection -eq $((index+1)) ]; then
-			read -r -p "WRITE NEW FILE NAME: " filename
-			Write "./notes/"$filename".txt"
+		if [ $select=1 ]; then
+			for entry in "$searchDir"/*;
+			do
+				notes[ $index ]=$entry
+				echo $((index+1)) - $entry
+				index=$((index+1))
+			done
+			read -r -p "SELECT FILE: " selection
+			Read ${notes[ $((selection-1)) ]}
+			continue
+		elif [ $select=2 ]; then
+			for entry in "$searchDir"/*;
+			do
+				notes[ $index ]=$entry
+				echo $((index+1)) - $entry
+				index=$((index+1))
+			done
+			echo $((index+1)) WRITE NEW
+			read -r -p "SELECT OPTION: " selection
+			if [[ ! $selection =~ [0-9]+ ]]; then
+		       		echo WRONG INPUT
+	       	       		continue	 
+			fi      
+			if [ $selection -eq $((index+1)) ]; then
+				read -r -p "WRITE NEW FILE NAME: " filename
+				Write "./notes/"$filename".txt"
+			else
+				Write ${notes[ $((selection-1)) ]}
+			fi
 		else
-			Write ${notes[ $((selection-1)) ]}
+			echo WRONG INPUT
+			continue
 		fi
 	elif [ $choice -eq 5 ]; then
 		echo GOODBYE

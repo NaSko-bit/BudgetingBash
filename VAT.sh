@@ -45,13 +45,28 @@ Write(){
 	echo "$user_input" >> "$log_file"
 }
 
+Log(){
+	local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+	if [ $1=1 ]; then
+		local log_file=""
+		while read -r line; do
+			echo $line
+		done < $filepath
+	elif [ $1=1 ]; then
+		local log_file=""
+		echo "NOTE FROM: $timestamp" > "$log_file"
+		user_input=$(cat)
+		echo "$user_input" >> "$log_file"
+}
+
 # MAIN FUNC
 while [ 1 -eq 1 ]; do
 	echo 1 - CHECK VALUE WITH VAT
 	echo 2 - CHECK VALUE WITHOUT VAT
 	echo 3 - OPEN INVOICE
 	echo 4 - "WRITE (NOTES, CALCULATION, ETC.)"
-	echo 5 - EXIT
+	echo 5 - VAT LOG
+	echo 6 - EXIT
 	read -p "ENTER YOUR CHOICE: " choice
 	if [ $choice -eq 1 ]; then
 		read -p "ENTER VALUE WITHOUT VAT: " base
@@ -135,6 +150,11 @@ while [ 1 -eq 1 ]; do
 			continue
 		fi
 	elif [ $choice -eq 5 ]; then
+		echo 1 - READ LOG
+		echo 2 - WRITE LOG
+		read -p "SELECT OPTION: " selection
+		Log $selection
+	elif [ $choice -eq 6 ]; then
 		echo GOODBYE
 		echo
 		echo

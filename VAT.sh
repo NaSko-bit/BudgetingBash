@@ -97,7 +97,7 @@ while [ 1 -eq 1 ]; do
 		for entry in "$searchDir"/*;
 	       	do	
 			invoices[ $index ]=$entry
-			echo $index - $entry
+			echo $((index+1)) - $entry
 			index=$((index+1))
 		done
 		read -r -p "SELECT FILE: " selection
@@ -109,11 +109,15 @@ while [ 1 -eq 1 ]; do
 		echo
 		echo
 		echo
-		Read ${invoices[ $selection ]}
+		Read ${invoices[ $((selection-1)) ]}
 	elif [ $choice -eq 4 ]; then
 		echo 1 - READ
 		echo 2 - WRITE
 		read -p "SELECT OPTION: " select
+		if [[ ! $select =~ [0-9]+ ]]; then
+			echo WRONG INPUT
+			continue
+		fi
 		searchDir=./notes
 		declare -a notes
 		index=0
@@ -125,6 +129,10 @@ while [ 1 -eq 1 ]; do
 				index=$((index+1))
 			done
 			read -r -p "SELECT FILE: " selection
+			if [[ ! $selection =~ [0-9]+ ]]; then
+				echo WRONG INPUT
+				continue
+			fi
 			Read ${notes[ $((selection-1)) ]}
 			continue
 		elif [ $select -eq 2 ]; then
@@ -154,6 +162,10 @@ while [ 1 -eq 1 ]; do
 		echo 1 - READ LOG
 		echo 2 - WRITE LOG
 		read -p "SELECT OPTION: " selection
+		if [[ ! $selection =~ [0-9]+ ]]; then
+			echo WRONG INPUT
+			continue
+		fi
 		Log $selection
 	elif [ $choice -eq 6 ]; then
 		echo GOODBYE

@@ -47,16 +47,17 @@ Write(){
 
 Log(){
 	local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
-	if [ $1=1 ]; then
-		local log_file=""
+	if [ $1 -eq 1 ]; then
+		local log_file="vatLog.txt"
 		while read -r line; do
 			echo $line
-		done < $filepath
-	elif [ $1=1 ]; then
-		local log_file=""
-		echo "NOTE FROM: $timestamp" > "$log_file"
+		done < $log_file
+	elif [ $1 -eq 2 ]; then
+		local log_file="vatLog.txt"
+		echo "NOTE FROM: $timestamp" >> "$log_file"
 		user_input=$(cat)
 		echo "$user_input" >> "$log_file"
+	fi
 }
 
 # MAIN FUNC

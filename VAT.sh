@@ -17,7 +17,7 @@ calculateNet(){
 	local netPrice=$(echo "$1 / (1 + $2)"|bc)
 	local vatValue=$(echo "$1 - $netPrice"|bc)
 	echo THE NET VALUE IS $netPrice
-	echo THE NET VALUE IS $vatValue
+	echo THE VAT VALUE IS $vatValue
 	echo
 	echo
 	echo
@@ -117,7 +117,7 @@ while [ 1 -eq 1 ]; do
 		searchDir=./notes
 		declare -a notes
 		index=0
-		if [ $select=1 ]; then
+		if [ $select -eq 1 ]; then
 			for entry in "$searchDir"/*;
 			do
 				notes[ $index ]=$entry
@@ -127,7 +127,7 @@ while [ 1 -eq 1 ]; do
 			read -r -p "SELECT FILE: " selection
 			Read ${notes[ $((selection-1)) ]}
 			continue
-		elif [ $select=2 ]; then
+		elif [ $select -eq 2 ]; then
 			for entry in "$searchDir"/*;
 			do
 				notes[ $index ]=$entry
